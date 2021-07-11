@@ -31,13 +31,16 @@ public class Main extends JavaPlugin {
     public HashMap<Player, Integer> playersXP = new HashMap<>();
     @Override
     public void onEnable() {
-        File config = new File(getDataFolder(),"config.yml");
+        File config = new File(getDataFolder(), "config.yml");
         if(!config.exists()){
             getLogger().info("creating cfg file & stop plugin");
             getLogger().severe("Please check new config file & rerun server");
             getConfig().options().copyDefaults(true);
+            saveDefaultConfig();
             Bukkit.getPluginManager().disablePlugin(this);
+            return;
         }
+
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             getLogger().info("SQL connection successful!");
@@ -76,6 +79,7 @@ public class Main extends JavaPlugin {
                 getLogger().info("SQL don`t connected to DB");
                 getLogger().info(String.valueOf(throwables));
                 Bukkit.getPluginManager().disablePlugin(this);
+                return;
             }
         } catch (ClassNotFoundException e) {
             getLogger().info("SQL not found!");
