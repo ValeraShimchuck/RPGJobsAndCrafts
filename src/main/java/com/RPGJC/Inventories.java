@@ -17,4 +17,19 @@ public class Inventories {
         inventory.setItem(6,plugin.items.CriganeRaceBlock());
         return inventory;
     }
+    public Inventory menuMainInventory(){
+        Inventory inventory = Bukkit.createInventory(null,9*5,"Меню");
+        for(int i=0;i<9;i++){
+            inventory.setItem(i,plugin.items.fillItem());
+            inventory.setItem(i+4*9,plugin.items.fillItem());
+        }
+        for(int i=1;i <5;i++){
+            inventory.setItem(i*9,plugin.items.fillItem());
+            inventory.setItem(i*9+8,plugin.items.fillItem());
+        }
+        inventory.setItem(2*9-1+5,plugin.items.playerStatistic());
+        inventory.setItem(4*9-1+3,plugin.items.craftBookItem());
+        inventory.setItem(4*9-1+7,plugin.items.jobItem());
+        return inventory;
+    }
 }

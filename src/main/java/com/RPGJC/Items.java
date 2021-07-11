@@ -83,6 +83,31 @@ public class Items {
                 .buildItem();
         return item;
     }
+
+    public ItemStack playerStatistic(){
+        ItemStack item = new ItemPattern(ChatColor.GOLD+"Статистика", Material.ENDER_EYE)
+                .enchant(new EnchantmentParams(plugin.glow,1,true))
+                .lore(ChatColor.WHITE+"Ваша статистика на сервере")
+                .buildItem();
+        return item;
+    }
+    public ItemStack jobItem(){
+        ItemStack item = new ItemPattern(ChatColor.AQUA+"Работы", Material.DIAMOND_PICKAXE)
+                .lore(ChatColor.WHITE+"Нажмите, что бы выбрать работу")
+                .buildItem();
+        return item;
+    }
+    public ItemStack craftBookItem(){
+        ItemStack item = new ItemPattern(ChatColor.WHITE+"Книга рецептов", Material.BOOK)
+                .lore(ChatColor.GOLD+"Нажмите, что бы открыть книгу рецептов")
+                .buildItem();
+        return item;
+    }
+    public ItemStack fillItem(){
+        ItemStack item = new ItemPattern(" ", Material.BLACK_STAINED_GLASS_PANE).buildItem();
+        return item;
+    }
+
 }
 
 class ItemPattern{
