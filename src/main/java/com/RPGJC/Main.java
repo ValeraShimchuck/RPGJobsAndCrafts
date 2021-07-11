@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
         import org.bukkit.scoreboard.Scoreboard;
 import org.bukkit.scoreboard.ScoreboardManager;
 
+import java.io.File;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -30,13 +31,20 @@ public class Main extends JavaPlugin {
     public HashMap<Player, Integer> playersXP = new HashMap<>();
     @Override
     public void onEnable() {
+        File config = new File(getDataFolder(),"config.yml");
+        if(!config.exists()){
+            getLogger().info("creating cfg file & stop plugin");
+            getLogger().severe("Please check new config file & rerun server");
+            getConfig().options().copyDefaults(true);
+            Bukkit.getPluginManager().disablePlugin(this);
+        }
         try {
             Class.forName("com.mysql.jdbc.Driver").newInstance();
             getLogger().info("SQL connection successful!");
             try {
-                url = "jdbc:mysql://localhost/store?serverTimezone=Europe/Moscow&useSSL=false";
-                user = "root";
-                password = "password";
+                url = this.getConfig().getString("url");
+                user = this.getConfig().getString("user");
+                password = this.getConfig().getString("password");
                 Connection connection = DriverManager.getConnection(url,user,password);
                 Statement s = connection.createStatement();
                 s.executeUpdate("CREATE TABLE IF NOT EXISTS player_data (Id INT PRIMARY KEY AUTO_INCREMENT, player TEXT, level TINYINT UNSIGNED, experience INT UNSIGNED, race TEXT);");
@@ -58,13 +66,10 @@ public class Main extends JavaPlugin {
                 minecraftInventories.put("RaceInventory",inventories.RaceInventory());
                 manager = Bukkit.getScoreboardManager();
                 sb = new com.RPGJC.Scoreboard(this);
-                Bukkit.getScheduler().scheduleSyncRepeatingTask(this, new Runnable() {
-                    @Override
-                    public void run() {
+                Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 
-                        //checkNpcIsNear();
+                    //checkNpcIsNear();
 
-                    }
                 }, 0, 20);
 
             } catch (SQLException throwables) {
