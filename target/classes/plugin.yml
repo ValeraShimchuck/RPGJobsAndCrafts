@@ -1,0 +1,15 @@
+name: RPGJobsAndCrafts
+main: com.RPGJC.Main
+version: 1.0
+api-version: 1.13
+softdepend: [Citizens]
+commands:
+  createracenpc:
+    usage: /createracenpc
+    description: Create a race npc
+  createnpc:
+    usage: /createnpc name fun
+    description: Create a npc with name and function
+  resetrace:
+    usage: /resetrace
+    description: Reset your race
