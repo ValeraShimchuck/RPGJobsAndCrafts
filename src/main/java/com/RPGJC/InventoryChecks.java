@@ -1,5 +1,6 @@
 package com.RPGJC;
 
+import com.RPGJC.menu.Menus;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.inventory.Inventory;
@@ -83,6 +84,16 @@ public class InventoryChecks {
                     plugin.sb.updateBoard((Player) e.getWhoClicked());
                 }
             }
+        }
+    }
+    public void onMainMenuClick(InventoryClickEvent e){
+        Inventory inv = e.getInventory();
+        Inventory c = e.getClickedInventory();
+        Player p = (Player) e.getWhoClicked();
+        if(plugin.menu.getInventory(Menus.MAIN,p) == null)return;
+        if(inv.equals(plugin.menu.getInventory(Menus.MAIN,p))){
+            if(c == null)return;
+            e.setCancelled(true);
         }
     }
 }

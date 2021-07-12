@@ -28,8 +28,8 @@ public class Inventories {
             inventory.setItem(i*9+8,plugin.items.fillItem());
         }
         inventory.setItem(2*9-1+5,plugin.items.playerStatistic());
-        inventory.setItem(4*9-1+3,plugin.items.craftBookItem());
-        inventory.setItem(4*9-1+7,plugin.items.jobItem());
+        inventory.setItem(2*9-1+3,plugin.items.craftBookItem());
+        inventory.setItem(2*9-1+7,plugin.items.jobItem());
         return inventory;
     }
 }

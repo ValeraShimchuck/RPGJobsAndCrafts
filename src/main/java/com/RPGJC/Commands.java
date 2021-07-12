@@ -1,5 +1,6 @@
 package com.RPGJC;
 
+import com.RPGJC.menu.Menus;
 import com.mojang.authlib.GameProfile;
 import net.citizensnpcs.api.CitizensAPI;
 import net.citizensnpcs.api.npc.NPC;
@@ -88,6 +89,10 @@ public class Commands implements CommandExecutor {
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
+        }
+        if(command.getName().equals("menu")){
+            if(!(commandSender instanceof Player)) return true;
+            plugin.menu.buildInventory(Menus.MAIN, (Player) commandSender);
         }
         return true;
     }

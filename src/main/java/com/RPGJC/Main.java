@@ -1,6 +1,7 @@
 package com.RPGJC;
 
 //import net.minecraft.server.v1_13_R2.*;
+import com.RPGJC.menu.Menu;
 import net.minecraft.server.v1_13_R2.EntityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
@@ -19,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Main extends JavaPlugin {
+    public Menu menu;
     public NamespacedKey key = new NamespacedKey(this,"glow");
     public static Glow glow;
     public ScoreboardManager manager;
@@ -69,18 +71,14 @@ public class Main extends JavaPlugin {
                 getCommand("createracenpc").setExecutor(new Commands(this));
                 getCommand("createnpc").setExecutor(new Commands(this));
                 getCommand("resetrace").setExecutor(new Commands(this));
+                getCommand("menu").setExecutor(new Commands(this));
                 items = new Items(this);
                 inventories = new Inventories(this);
                 inventoryChecks = new InventoryChecks(this);
                 minecraftInventories.put("RaceInventory",inventories.RaceInventory());
                 manager = Bukkit.getScoreboardManager();
                 sb = new com.RPGJC.Scoreboard(this);
-                Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
-
-                    //checkNpcIsNear();
-
-                }, 0, 20);
-
+                menu = new Menu(this);
             } catch (SQLException throwables) {
                 getLogger().info("SQL don`t connected to DB");
                 getLogger().info(String.valueOf(throwables));

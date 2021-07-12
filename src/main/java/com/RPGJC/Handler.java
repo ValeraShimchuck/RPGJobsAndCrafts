@@ -7,6 +7,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -98,9 +99,10 @@ public class Handler implements Listener {
     @EventHandler
     public void onInventoryClick(InventoryClickEvent e){
         plugin.inventoryChecks.onRaceItemsClick(e);
-
-        if(e.getClickedInventory() == null) return;
-
-
+        plugin.inventoryChecks.onMainMenuClick(e);
+    }
+    @EventHandler
+    public void onInventoryExit(InventoryCloseEvent e){
+        if(!plugin.menu.getTransition((Player) e.getPlayer()))plugin.menu.deletePlayer((Player) e.getPlayer());
     }
 }
