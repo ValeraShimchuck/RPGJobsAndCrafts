@@ -1,5 +1,6 @@
 package com.RPGJC;
 
+import com.RPGJC.dataKeeper.RaceType;
 import com.RPGJC.menu.Menus;
 import com.mojang.authlib.GameProfile;
 import net.citizensnpcs.api.CitizensAPI;
@@ -84,7 +85,7 @@ public class Commands implements CommandExecutor {
                 stat.executeUpdate(String.format("UPDATE player_data SET race='None' WHERE player='%s'",name));
                 stat.close();
                 conn.close();
-                plugin.race.replace((Player) commandSender,"None");
+                plugin.data.setRace((Player) commandSender , RaceType.NONE);
                 plugin.sb.updateBoard((Player) commandSender);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();

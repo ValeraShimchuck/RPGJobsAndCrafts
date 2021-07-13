@@ -1,5 +1,6 @@
 package com.RPGJC;
 
+import com.RPGJC.dataKeeper.RaceType;
 import com.RPGJC.menu.Menus;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -25,60 +26,20 @@ public class InventoryChecks {
                 //plugin.getLogger().info(String.valueOf(item));
                 if(item.equals(plugin.items.HumansRaceBlock())){
                     e.getWhoClicked().sendMessage("You are Human!");
-                    try {
-                        Connection conn = DriverManager.getConnection(plugin.url, plugin.user, plugin.password);
-                        Statement s = conn.createStatement();
-                        s.executeUpdate(String.format("UPDATE player_data SET race='Human' WHERE player='%s';",((Player)e.getWhoClicked()).getName()));
-                        plugin.race.replace((Player) e.getWhoClicked(),"Human");
-                        s.close();
-                        conn.close();
-                        e.getWhoClicked().closeInventory();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                    plugin.data.setRace((Player) e.getWhoClicked(), RaceType.HUMAN);
                 }
                 if(item.equals(plugin.items.MageRaceBlock())){
                     e.getWhoClicked().sendMessage("You are Mage!");
-                    try {
-                        Connection conn = DriverManager.getConnection(plugin.url, plugin.user, plugin.password);
-                        Statement s = conn.createStatement();
-                        s.executeUpdate(String.format("UPDATE player_data SET race='Mage' WHERE player='%s';",((Player)e.getWhoClicked()).getName()));
-                        plugin.race.replace((Player) e.getWhoClicked(),"Mage");
-                        s.close();
-                        conn.close();
-                        e.getWhoClicked().closeInventory();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                    plugin.data.setRace((Player) e.getWhoClicked(), RaceType.MAGE);
                 }
                 if(item.equals(plugin.items.ZomoRaceBlock())){
                     e.getWhoClicked().sendMessage("You are Zomo!");
-                    try {
-                        Connection conn = DriverManager.getConnection(plugin.url, plugin.user, plugin.password);
-                        Statement s = conn.createStatement();
-                        s.executeUpdate(String.format("UPDATE player_data SET race='Zomo' WHERE player='%s';",((Player)e.getWhoClicked()).getName()));
-                        plugin.race.replace((Player) e.getWhoClicked(),"Zomo");
-                        s.close();
-                        conn.close();
-                        e.getWhoClicked().closeInventory();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                    plugin.data.setRace((Player) e.getWhoClicked(), RaceType.ZOMO);
                 }
 
                 if(item.equals(plugin.items.CriganeRaceBlock())){
                     e.getWhoClicked().sendMessage("You are Crigane!");
-                    try {
-                        Connection conn = DriverManager.getConnection(plugin.url, plugin.user, plugin.password);
-                        Statement s = conn.createStatement();
-                        s.executeUpdate(String.format("UPDATE player_data SET race='Crigane' WHERE player='%s';",((Player)e.getWhoClicked()).getName()));
-                        plugin.race.replace((Player) e.getWhoClicked(),"Crigane");
-                        s.close();
-                        conn.close();
-                        e.getWhoClicked().closeInventory();
-                    } catch (SQLException throwables) {
-                        throwables.printStackTrace();
-                    }
+                    plugin.data.setRace((Player) e.getWhoClicked(), RaceType.HUMAN);
                 }
                 if(item.equals(plugin.items.CriganeRaceBlock()) || item.equals(plugin.items.ZomoRaceBlock())|| item.equals(plugin.items.MageRaceBlock())||item.equals(plugin.items.HumansRaceBlock())){
                     plugin.sb.updateBoard((Player) e.getWhoClicked());

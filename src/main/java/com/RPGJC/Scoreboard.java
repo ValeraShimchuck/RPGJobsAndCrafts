@@ -19,14 +19,26 @@ public class Scoreboard {
         objective.setDisplayName("Информация");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         String race = null;
-        if(plugin.race.get(p).equals("Human")) race = "Человек";
-        if(plugin.race.get(p).equals("Mage")) race = "Маг";
-        if(plugin.race.get(p).equals("Zomo")) race = "Зомо";
-        if(plugin.race.get(p).equals("Crigane")) race = "Криган";
-        if(plugin.race.get(p).equals("None")) race = "Не выбрана";
+        switch (plugin.data.getRace(p)){
+            case HUMAN:
+                race="Человек";
+                break;
+            case MAGE:
+                race="Маг";
+                break;
+            case ZOMO:
+                race = "Зомо";
+                break;
+            case CRIGANE:
+                race = "Криган";
+                break;
+            case NONE:
+                race = "Не выбрана";
+                break;
+        }
         if(race == null) race = "Error";
-        objective.getScore(ChatColor.GOLD+"Уровень: "+ ChatColor.WHITE+plugin.playersLvl.get(p)).setScore(3);
-        objective.getScore(ChatColor.GOLD+"Опыт: "+ ChatColor.WHITE+plugin.playersXP.get(p)).setScore(2);
+        objective.getScore(ChatColor.GOLD+"Уровень: "+ ChatColor.WHITE+plugin.data.getPlayerLvl(p)).setScore(3);
+        objective.getScore(ChatColor.GOLD+"Опыт: "+ ChatColor.WHITE+plugin.data.getPlayerXp(p)).setScore(2);
         objective.getScore(ChatColor.GREEN +"Раса: "+ChatColor.WHITE+race).setScore(1);
 
         p.setScoreboard(board);
@@ -38,11 +50,23 @@ public class Scoreboard {
     }
     public void updateBoard(Player p){
         String race = null;
-        if(plugin.race.get(p).equals("Human")) race = "Человек";
-        if(plugin.race.get(p).equals("Mage")) race = "Маг";
-        if(plugin.race.get(p).equals("Zomo")) race = "Зомо";
-        if(plugin.race.get(p).equals("Crigane")) race = "Криган";
-        if(plugin.race.get(p).equals("None")) race = "Не выбрана";
+        switch (plugin.data.getRace(p)){
+            case HUMAN:
+                race="Человек";
+                break;
+            case MAGE:
+                race="Маг";
+                break;
+            case ZOMO:
+                race = "Зомо";
+                break;
+            case CRIGANE:
+                race = "Криган";
+                break;
+            case NONE:
+                race = "Не выбрана";
+                break;
+        }
         if(race == null) race = "Error";
 
         org.bukkit.scoreboard.Scoreboard board = p.getScoreboard();
@@ -51,8 +75,8 @@ public class Scoreboard {
         for(String e: board.getEntries()){
             board.resetScores(e);
         }
-        objective.getScore(ChatColor.GOLD+"Уровень: "+ ChatColor.WHITE+plugin.playersLvl.get(p)).setScore(3);
-        objective.getScore(ChatColor.GOLD+"Опыт: "+ ChatColor.WHITE+plugin.playersXP.get(p)).setScore(2);
+        objective.getScore(ChatColor.GOLD+"Уровень: "+ ChatColor.WHITE+plugin.data.getPlayerLvl(p)).setScore(3);
+        objective.getScore(ChatColor.GOLD+"Опыт: "+ ChatColor.WHITE+plugin.data.getPlayerXp(p)).setScore(2);
         objective.getScore(ChatColor.GREEN +"Раса: "+ChatColor.WHITE+race).setScore(1);
         //return info
         //p.setScoreboard(board);

@@ -107,6 +107,11 @@ public class Items {
         ItemStack item = new ItemPattern(" ", Material.BLACK_STAINED_GLASS_PANE).buildItem();
         return item;
     }
+    public ItemStack lumberJackJobItem(){
+        ItemStack item = new ItemPattern("Лесоруб", Material.DIAMOND_AXE).buildItem();
+        //code
+        return item;
+    }
 
 }
 

@@ -1,6 +1,7 @@
 package com.RPGJC;
 
 //import net.minecraft.server.v1_13_R2.*;
+import com.RPGJC.dataKeeper.Data;
 import com.RPGJC.menu.Menu;
 import net.minecraft.server.v1_13_R2.EntityPlayer;
 import org.bukkit.Bukkit;
@@ -31,11 +32,12 @@ public class Main extends JavaPlugin {
     public String url;
     public String user;
     public String password;
-    public HashMap<Player,String> race = new HashMap<>();
+    public Data data;
+    //public HashMap<Player,String> race = new HashMap<>();
     public List<EntityPlayer> npcs = new ArrayList<>();
     public HashMap<String, Inventory> minecraftInventories = new HashMap<>();
-    public HashMap<Player, Integer> playersLvl = new HashMap<>();
-    public HashMap<Player, Integer> playersXP = new HashMap<>();
+    //public HashMap<Player, Integer> playersLvl = new HashMap<>();
+    //public HashMap<Player, Integer> playersXP = new HashMap<>();
     @Override
     public void onEnable() {
         registerGlow();
@@ -58,7 +60,7 @@ public class Main extends JavaPlugin {
                 password = this.getConfig().getString("password");
                 Connection connection = DriverManager.getConnection(url,user,password);
                 Statement s = connection.createStatement();
-                s.executeUpdate("CREATE TABLE IF NOT EXISTS player_data (Id INT PRIMARY KEY AUTO_INCREMENT, player TEXT, level TINYINT UNSIGNED, experience INT UNSIGNED, race TEXT);");
+                s.executeUpdate("CREATE TABLE IF NOT EXISTS player_data (Id INT PRIMARY KEY AUTO_INCREMENT, player TEXT, level TINYINT UNSIGNED, experience INT UNSIGNED, race TEXT, current_job TEXT);");
                 s.executeUpdate("CREATE TABLE IF NOT EXISTS jobs_data (Id INT PRIMARY KEY AUTO_INCREMENT, playerID INT, job TEXT, level TINYINT UNSIGNED, experience INT UNSIGNED)");
                 s.executeUpdate("CREATE TABLE IF NOT EXISTS npc_data (Id INT PRIMARY KEY AUTO_INCREMENT, name TINYTEXT,world TINYTEXT, x DOUBLE, y DOUBLE, z DOUBLE, pitch FLOAT, yaw FLOAT,fun TINYTEXT)");
                 //spawnNPCs(s);
@@ -79,6 +81,7 @@ public class Main extends JavaPlugin {
                 manager = Bukkit.getScoreboardManager();
                 sb = new com.RPGJC.Scoreboard(this);
                 menu = new Menu(this);
+                data = new Data(this);
             } catch (SQLException throwables) {
                 getLogger().info("SQL don`t connected to DB");
                 getLogger().info(String.valueOf(throwables));
@@ -113,6 +116,23 @@ public class Main extends JavaPlugin {
         //connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
         //connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
         //connection.sendPacket(new PacketPlayOutEntityHeadRotation(npc,(byte)(npc.yaw * 256 / 360)));
+    }
+    public Integer resultLength(ResultSet resultSet){
+        int i = 0;
+
+        try {
+            while (true){
+                    if (!resultSet.next()){
+                        resultSet.beforeFirst();
+                        break;
+                    }
+                i++;
+            }
+
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
+        return i;
     }
     public void registerGlow(){
         try{

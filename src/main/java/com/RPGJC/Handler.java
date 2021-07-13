@@ -29,12 +29,12 @@ public class Handler implements Listener {
         Connection connection = null;
         Boolean isConnectionPass = false;
         try {
-            connection = DriverManager.getConnection(plugin.url, plugin.user, plugin.password);
+            /*connection = DriverManager.getConnection(plugin.url, plugin.user, plugin.password);
             Statement s = connection.createStatement();
             ResultSet resultSet = s.executeQuery("SELECT player FROM player_data WHERE player ='"+e.getPlayer().getName()+"';");
             if(plugin.getResultSetRowCount(resultSet) == 0){
-                s.executeUpdate("INSERT player_data(player,level,experience,race) VALUES('"+e.getPlayer().getName()+"',1,0,'None');");
-                e.getPlayer().setExp(0);
+                s.executeUpdate("INSERT player_data(player,level,experience,race,current_job) VALUES('"+e.getPlayer().getName()+"',1,0,'None','None');");
+
                 e.getPlayer().setLevel(1);
             }
             ResultSet raceSet = s.executeQuery("SELECT * FROM player_data WHERE player='"+e.getPlayer().getName()+"';");
@@ -45,7 +45,8 @@ public class Handler implements Listener {
 
             s.close();
             connection.close();
-            isConnectionPass = true;
+            isConnectionPass = true;*/
+            plugin.data.addPlayer(e.getPlayer());
 
         } catch (Exception exception) {
             e.getPlayer().kickPlayer("SQL error! Please rejoin");
@@ -62,9 +63,7 @@ public class Handler implements Listener {
     public void onLeave(PlayerQuitEvent e){
 
         plugin.sb.onLeave(e.getPlayer());
-        plugin.playersXP.remove(e.getPlayer());
-        plugin.playersLvl.remove(e.getPlayer());
-        plugin.race.remove(e.getPlayer());
+        plugin.data.deletePlayer(e.getPlayer());
     }
     @EventHandler
     public void onInteract(PlayerInteractAtEntityEvent e){

@@ -13,3 +13,6 @@ commands:
   resetrace:
     usage: /resetrace
     description: Reset your race
+  menu:
+    usage: /menu
+    description: Open menu
