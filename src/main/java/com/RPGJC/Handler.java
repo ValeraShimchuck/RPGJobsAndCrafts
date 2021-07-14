@@ -49,12 +49,11 @@ public class Handler implements Listener {
             plugin.data.addPlayer(e.getPlayer());
 
         } catch (Exception exception) {
+            exception.printStackTrace();
             e.getPlayer().kickPlayer("SQL error! Please rejoin");
         }
-        if(isConnectionPass){
-            Player p = e.getPlayer();
-            plugin.sb.onJoin(p);
-        }
+        Player p = e.getPlayer();
+        plugin.sb.onJoin(p);
 
 
     }

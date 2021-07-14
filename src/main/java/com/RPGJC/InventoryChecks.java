@@ -39,10 +39,11 @@ public class InventoryChecks {
 
                 if(item.equals(plugin.items.CriganeRaceBlock())){
                     e.getWhoClicked().sendMessage("You are Crigane!");
-                    plugin.data.setRace((Player) e.getWhoClicked(), RaceType.HUMAN);
+                    plugin.data.setRace((Player) e.getWhoClicked(), RaceType.CRIGANE);
                 }
                 if(item.equals(plugin.items.CriganeRaceBlock()) || item.equals(plugin.items.ZomoRaceBlock())|| item.equals(plugin.items.MageRaceBlock())||item.equals(plugin.items.HumansRaceBlock())){
                     plugin.sb.updateBoard((Player) e.getWhoClicked());
+                    e.getWhoClicked().closeInventory();
                 }
             }
         }

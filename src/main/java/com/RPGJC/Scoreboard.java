@@ -15,7 +15,7 @@ public class Scoreboard {
     public void onJoin(Player p){
         org.bukkit.scoreboard.Scoreboard board = plugin.manager.getNewScoreboard();
         Objective objective = board.registerNewObjective("stats","dummy");
-
+        if(objective == null)plugin.getLogger().info("objective is null");
         objective.setDisplayName("Информация");
         objective.setDisplaySlot(DisplaySlot.SIDEBAR);
         String race = null;
@@ -42,11 +42,12 @@ public class Scoreboard {
         objective.getScore(ChatColor.GREEN +"Раса: "+ChatColor.WHITE+race).setScore(1);
 
         p.setScoreboard(board);
+        plugin.getLogger().info("passed scoreboard");
     }
     public void onLeave(Player p){
         org.bukkit.scoreboard.Scoreboard board = p.getScoreboard();
         Objective objective = board.getObjective("stats");
-        objective.unregister();
+        if(objective != null)objective.unregister();
     }
     public void updateBoard(Player p){
         String race = null;

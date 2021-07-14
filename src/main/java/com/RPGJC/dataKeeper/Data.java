@@ -29,7 +29,7 @@ public class Data extends SQLData{
 
 
             }else{
-                s.executeUpdate(String.format("INSERT player_data(player,level,experience,race) VALUES('%s',1,0,'None')"));
+                s.executeUpdate(String.format("INSERT player_data(player,level,experience,race,current_job) VALUES('%s',1,0,'None','None')",p.getName()));
                 playersData.put(p,new LevelXPData(1,0));
                 playersRace.put(p,RaceType.NONE);
                 playersJob.put(p,Job.NONE);

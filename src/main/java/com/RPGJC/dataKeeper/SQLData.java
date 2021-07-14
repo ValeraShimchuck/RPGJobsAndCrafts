@@ -26,7 +26,7 @@ public class SQLData {
         try {
             Connection conn = DriverManager.getConnection(plugin.url, plugin.user, plugin.password);
             Statement s = conn.createStatement();
-            s.executeUpdate(String.format("UPDATE %s SET %s=%s WHERE Id=%d;",tablename,colname,value,id));
+            s.executeUpdate(String.format("UPDATE %s SET %s='%s' WHERE Id=%d;",tablename,colname,value,id));
             s.close();
             conn.close();
         } catch (SQLException throwables) {
@@ -93,7 +93,7 @@ public class SQLData {
         try {
             Connection conn = DriverManager.getConnection(plugin.url, plugin.user, plugin.password);
             Statement s = conn.createStatement();
-            ResultSet result = s.executeQuery(String.format("SELECT Id FROM %s WHERE %s=%s;",table,col,value));
+            ResultSet result = s.executeQuery(String.format("SELECT Id FROM %s WHERE %s='%s';",table,col,value));
             if(plugin.resultLength(result) == 1){
                 result.next();
                 id = result.getInt(1);
