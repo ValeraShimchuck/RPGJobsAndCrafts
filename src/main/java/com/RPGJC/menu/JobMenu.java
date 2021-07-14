@@ -7,14 +7,13 @@ import org.bukkit.inventory.Inventory;
 import java.util.HashMap;
 import java.util.List;
 
-public class MainMenu implements MenuInterface{
-    private HashMap<Player, Inventory> map = new HashMap<>();
+public class JobMenu implements MenuInterface{
+    private HashMap<Player,Inventory> map = new HashMap<>();
     private Main plugin;
-    public MainMenu(Main plugin){this.plugin=plugin;}
-
+    public JobMenu(Main plugin){this.plugin=plugin;}
     @Override
     public void buildInventory(Player p) {
-        Inventory inv = plugin.inventories.menuMainInventory();
+        Inventory inv = plugin.inventories.menuJobInventory(p);
         map.put(p,inv);
         p.openInventory(inv);
     }

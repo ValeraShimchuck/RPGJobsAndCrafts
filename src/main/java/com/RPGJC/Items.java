@@ -1,10 +1,12 @@
 package com.RPGJC;
 
+import com.RPGJC.dataKeeper.Job;
 import net.citizensnpcs.npc.ai.speech.Chat;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Item;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -107,9 +109,88 @@ public class Items {
         ItemStack item = new ItemPattern(" ", Material.BLACK_STAINED_GLASS_PANE).buildItem();
         return item;
     }
-    public ItemStack lumberJackJobItem(){
-        ItemStack item = new ItemPattern("Лесоруб", Material.DIAMOND_AXE).buildItem();
-        //code
+    public ItemStack lumberjackJobItem(Player p){
+        ItemStack item;
+        if(plugin.data.getJobXp(p, Job.LUMBERJACK) !=null){
+            item = new ItemPattern(ChatColor.GOLD+""+ChatColor.BOLD+"Лесоруб", Material.DIAMOND_AXE)
+                    .lore(
+                            ChatColor.WHITE+"Стань лесорубом и руби деревья за деньги",
+                            ChatColor.GOLD+"Уровень: "+ChatColor.WHITE+plugin.data.getJobLvl(p,Job.LUMBERJACK),
+                            ChatColor.GOLD+"Опыт: "+ChatColor.WHITE+plugin.data.getJobXp(p,Job.LUMBERJACK)
+
+                    ).buildItem();
+        }else
+        item = new ItemPattern(ChatColor.GOLD+""+ChatColor.BOLD+"Лесоруб", Material.DIAMOND_AXE)
+                .lore(
+                        ChatColor.WHITE+"Стань лесорубом и руби деревья за деньги",
+                        ChatColor.RED+"Вы еще не работали лесорубом!"
+
+                ).buildItem();
+
+        return item;
+    }
+    public ItemStack minerJobItem(Player p){
+        ItemStack item;
+        if(plugin.data.getJobXp(p, Job.MINER) !=null){
+            item = new ItemPattern(ChatColor.GOLD+""+ChatColor.BOLD+"Шахтер", Material.DIAMOND_PICKAXE)
+                    .lore(
+                            ChatColor.WHITE+"Стань шахтером и добывай минералы за деньги",
+                            ChatColor.GOLD+"Уровень: "+ChatColor.WHITE+plugin.data.getJobLvl(p,Job.MINER),
+                            ChatColor.GOLD+"Опыт: "+ChatColor.WHITE+plugin.data.getJobXp(p,Job.MINER)
+
+                    ).buildItem();
+        }else
+            item = new ItemPattern(ChatColor.GOLD+""+ChatColor.BOLD+"Шахтер", Material.DIAMOND_PICKAXE)
+                    .lore(
+                            ChatColor.WHITE+"Стань шахтером и добывай минералы за деньги",
+                            ChatColor.RED+"Вы еще не работали шахтером!"
+
+                    ).buildItem();
+
+        return item;
+    }
+    public ItemStack farmerJobItem(Player p){
+        ItemStack item;
+        if(plugin.data.getJobXp(p, Job.FARMER) !=null){
+            item = new ItemPattern(ChatColor.GOLD+""+ChatColor.BOLD+"Фермер", Material.DIAMOND_HOE)
+                    .lore(
+                            ChatColor.WHITE+"Стань фермером и рости культуры за деньги",
+                            ChatColor.GOLD+"Уровень: "+ChatColor.WHITE+plugin.data.getJobLvl(p,Job.FARMER),
+                            ChatColor.GOLD+"Опыт: "+ChatColor.WHITE+plugin.data.getJobXp(p,Job.FARMER)
+
+                    ).buildItem();
+        }else
+            item = new ItemPattern(ChatColor.GOLD+""+ChatColor.BOLD+"Фермер", Material.DIAMOND_HOE)
+                    .lore(
+                            ChatColor.WHITE+"Стань фермером и рости культуры за деньги",
+                            ChatColor.RED+"Вы еще не работали фермером!"
+
+                    ).buildItem();
+
+        return item;
+    }
+    public ItemStack butcherJobItem(Player p){
+        ItemStack item;
+        if(plugin.data.getJobXp(p, Job.BUTCHER) !=null){
+            item = new ItemPattern(ChatColor.GOLD+""+ChatColor.BOLD+"Мясник", Material.DIAMOND_SWORD)
+                    .lore(
+                            ChatColor.WHITE+"Стань мясником и руби монстров и животных за деньги",
+                            ChatColor.GOLD+"Уровень: "+ChatColor.WHITE+plugin.data.getJobLvl(p,Job.BUTCHER),
+                            ChatColor.GOLD+"Опыт: "+ChatColor.WHITE+plugin.data.getJobXp(p,Job.BUTCHER)
+
+                    ).buildItem();
+        }else
+            item = new ItemPattern(ChatColor.GOLD+""+ChatColor.BOLD+"Мясник", Material.DIAMOND_SWORD)
+                    .lore(
+                            ChatColor.WHITE+"Стань мясником и руби монстров и животных за деньги",
+                            ChatColor.RED+"Вы еще не работали мясником!"
+
+                    ).buildItem();
+
+        return item;
+    }
+    public ItemStack returnItem(){
+        ItemStack item = new ItemPattern(ChatColor.YELLOW+""+ChatColor.BOLD+"Вернуться назад",Material.ARROW).buildItem();
         return item;
     }
 

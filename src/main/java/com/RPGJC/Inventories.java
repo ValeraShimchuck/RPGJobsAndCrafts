@@ -1,6 +1,7 @@
 package com.RPGJC;
 
 import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
 
 public class Inventories {
@@ -30,6 +31,23 @@ public class Inventories {
         inventory.setItem(2*9-1+5,plugin.items.playerStatistic());
         inventory.setItem(2*9-1+3,plugin.items.craftBookItem());
         inventory.setItem(2*9-1+7,plugin.items.jobItem());
+        return inventory;
+    }
+    public Inventory menuJobInventory(Player p){
+        Inventory inventory = Bukkit.createInventory(null,9*5,"Работы");
+        for(int i=0;i<9;i++){
+            inventory.setItem(i,plugin.items.fillItem());
+            inventory.setItem(i+4*9,plugin.items.fillItem());
+        }
+        for(int i=1;i <5;i++){
+            inventory.setItem(i*9,plugin.items.fillItem());
+            inventory.setItem(i*9+8,plugin.items.fillItem());
+        }
+        inventory.setItem(2*9-1+2,plugin.items.lumberjackJobItem(p));
+        inventory.setItem(2*9-1+4,plugin.items.minerJobItem(p));
+        inventory.setItem(2*9-1+6,plugin.items.farmerJobItem(p));
+        inventory.setItem(2*9-1+8,plugin.items.butcherJobItem(p));
+        inventory.setItem(3*9-1+8,plugin.items.returnItem());
         return inventory;
     }
 }

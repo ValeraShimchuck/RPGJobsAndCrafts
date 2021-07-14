@@ -98,6 +98,7 @@ public class Handler implements Listener {
     public void onInventoryClick(InventoryClickEvent e){
         plugin.inventoryChecks.onRaceItemsClick(e);
         plugin.inventoryChecks.onMainMenuClick(e);
+        plugin.inventoryChecks.onJobMenuClick(e);
     }
     @EventHandler
     public void onInventoryExit(InventoryCloseEvent e){

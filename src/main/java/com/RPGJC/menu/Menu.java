@@ -10,9 +10,11 @@ public class Menu {
     private HashMap<Player, Boolean> transition = new HashMap<>();
     private Main plugin;
     private MenuInterface mainMenu;
+    private MenuInterface jobMenu;
     public Menu(Main plugin){
         this.plugin = plugin;
         this.mainMenu = new MainMenu(this.plugin);
+        this.jobMenu = new JobMenu(this.plugin);
     }
     public void buildInventory(Menus menu, Player p){
         switch (menu){
@@ -26,7 +28,7 @@ public class Menu {
                 //code
                 break;
             case JOB:
-                //code
+                jobMenu.buildInventory(p);
                 break;
         }
     }
@@ -43,13 +45,14 @@ public class Menu {
                 //code
                 break;
             case JOB:
-                //code
+                inv = jobMenu.getInventory(p);
                 break;
         }
         return inv;
     }
     public Menus getMenu(Player p){
         if(mainMenu.playerInInventory(p))return Menus.MAIN;
+        if(jobMenu.playerInInventory(p))return Menus.JOB;
 
         //code
         return Menus.NONE;
@@ -66,7 +69,7 @@ public class Menu {
                 //code
                 break;
             case JOB:
-                //code
+                jobMenu.deleteInventory(p);
                 break;
         }
     }

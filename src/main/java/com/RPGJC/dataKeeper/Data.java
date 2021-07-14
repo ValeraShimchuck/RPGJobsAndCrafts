@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 
 import java.sql.*;
 import java.util.HashMap;
+import java.util.Objects;
+import java.util.Set;
 
 public class Data extends SQLData{
     private Main plugin;
@@ -36,12 +38,42 @@ public class Data extends SQLData{
                 p.setExp(0);
                 p.setLevel(playersData.get(p).getLvl());
             }
+            ResultSet result1 = s.executeQuery(String.format("SELECT * FROM jobs_data WHERE playerID=%d",getPlayerId(p)));
+            while (result1.next()){
+                Job job = getJobByString(result1.getString(3));
+                LevelXPData levelXPData = new LevelXPData(result1.getInt(4),result1.getInt(5));
+                PlayerJob pj = new PlayerJob(p,job);
+                playersJobDataMap.put(pj,levelXPData);
+            }
             s.close();
             conn.close();
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
 
+    }
+    public void createJobPlayer(Job job, Player p){
+        try {
+            Connection conn = DriverManager.getConnection(plugin.url, plugin.user, plugin.password);
+            Statement s = conn.createStatement();
+            ResultSet result = s.executeQuery(String.format("SELECT * FROM jobs_data WHERE playerID=%d AND job='%s';",getPlayerId(p),getStringByJob(job)));
+            if(plugin.resultLength(result) == 1){
+                result.next();
+                PlayerJob pj = new PlayerJob(p,job);
+                LevelXPData data = new LevelXPData(result.getInt(4),result.getInt(5));
+                if(playersJobDataMap.containsKey(pj))playersJobDataMap.replace(pj,data);
+                else playersJobDataMap.put(pj,data);
+            }else{
+                s.executeUpdate(String.format("INSERT jobs_data(playerID,job,level,experience) VALUES(%d,'%s',1,0)",getPlayerId(p),getStringByJob(job)));
+                PlayerJob pj = new PlayerJob(p,job);
+                LevelXPData data = new LevelXPData(1,0);
+                playersJobDataMap.put(pj,data);
+            }
+            s.close();
+            conn.close();
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
     public void deletePlayer(Player p){
         for(Job job: Job.values()){
@@ -201,9 +233,38 @@ public class Data extends SQLData{
 class PlayerJob{
     private Player p;
     private Job job;
+    private Integer hashcode;
     public PlayerJob(Player p, Job job){
         this.p=p;
         this.job=job;
+        hashcode = p.hashCode()+job.hashCode();
+    }
+    public PlayerJob gatSameInMap(HashMap<PlayerJob, LevelXPData> map){
+        PlayerJob samepj = null;
+        Set<PlayerJob> set = map.keySet();
+        for(PlayerJob pj: set){
+            if(this.equals(pj)){
+                samepj = pj;
+                break;
+            }
+        }
+        return samepj;
+    }
+    private Boolean isEquals(PlayerJob pj){
+        if(this.equals(pj))return true;
+        return false;
+    }
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlayerJob pj = (PlayerJob) o;
+        return Objects.equals(pj.getPlayer(), getPlayer()) &&
+                Objects.equals(pj.getJob(),getJob());
+    }
+    @Override
+    public int hashCode(){
+        return hashcode;
     }
     public Player getPlayer(){
         return p;
