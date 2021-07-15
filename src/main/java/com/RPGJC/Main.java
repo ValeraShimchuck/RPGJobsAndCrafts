@@ -1,6 +1,7 @@
 package com.RPGJC;
 
 //import net.minecraft.server.v1_13_R2.*;
+import com.RPGJC.craft.Craft;
 import com.RPGJC.dataKeeper.Data;
 import com.RPGJC.menu.Menu;
 import net.minecraft.server.v1_13_R2.EntityPlayer;
@@ -33,11 +34,10 @@ public class Main extends JavaPlugin {
     public String user;
     public String password;
     public Data data;
-    //public HashMap<Player,String> race = new HashMap<>();
+    public Craft craft;
     public List<EntityPlayer> npcs = new ArrayList<>();
     public HashMap<String, Inventory> minecraftInventories = new HashMap<>();
-    //public HashMap<Player, Integer> playersLvl = new HashMap<>();
-    //public HashMap<Player, Integer> playersXP = new HashMap<>();
+
     @Override
     public void onEnable() {
         registerGlow();
@@ -71,7 +71,6 @@ public class Main extends JavaPlugin {
                 Bukkit.getPluginManager().registerEvents(new Handler(this), this);
                 //CitizensAPI.registerEvents(new Handler(this));
                 getCommand("createracenpc").setExecutor(new Commands(this));
-                getCommand("createnpc").setExecutor(new Commands(this));
                 getCommand("resetrace").setExecutor(new Commands(this));
                 getCommand("menu").setExecutor(new Commands(this));
                 items = new Items(this);
@@ -82,6 +81,8 @@ public class Main extends JavaPlugin {
                 sb = new com.RPGJC.Scoreboard(this);
                 menu = new Menu(this);
                 data = new Data(this);
+                craft = new Craft(this);
+                craft.initCrafts();
             } catch (SQLException throwables) {
                 getLogger().info("SQL don`t connected to DB");
                 getLogger().info(String.valueOf(throwables));
@@ -110,12 +111,6 @@ public class Main extends JavaPlugin {
             return 0;
         }
         return size;
-    }
-    public void addNPCPacket(EntityPlayer npc, Player player){
-        //PlayerConnection connection = ((CraftPlayer)player).getHandle().playerConnection;
-        //connection.sendPacket(new PacketPlayOutPlayerInfo(PacketPlayOutPlayerInfo.EnumPlayerInfoAction.ADD_PLAYER, npc));
-        //connection.sendPacket(new PacketPlayOutNamedEntitySpawn(npc));
-        //connection.sendPacket(new PacketPlayOutEntityHeadRotation(npc,(byte)(npc.yaw * 256 / 360)));
     }
     public Integer resultLength(ResultSet resultSet){
         int i = 0;

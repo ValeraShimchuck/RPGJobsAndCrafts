@@ -31,42 +31,6 @@ public class Commands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        if(command.getName().equals("createnpc")){
-            if(strings.length != 2) return false;
-            if(strings[0].length() > 15) return false;
-            //code here
-            Player p = (Player) commandSender;
-            Double x = p.getLocation().getX();
-            Double y = p .getLocation().getY();
-            Double z = p.getLocation().getZ();
-            Float pitch = p.getLocation().getPitch();
-            Float yaw = p.getLocation().getYaw();
-            String name = strings[0];
-            String fun = strings[1];
-            MinecraftServer nmsServer = ((CraftServer)Bukkit.getServer()).getServer();
-            WorldServer nmsWorld = ((CraftWorld)Bukkit.getWorld(p.getWorld().getName())).getHandle();
-            GameProfile gameProfile = new GameProfile(UUID.randomUUID(),name);
-            EntityPlayer npc = new EntityPlayer(nmsServer,nmsWorld,gameProfile,new PlayerInteractManager(nmsWorld));
-            npc.setLocation(x,y,z,yaw,pitch);
-            List<Player> players = (List<Player>) Bukkit.getServer().getOnlinePlayers();
-            Connection connection = null;
-            try {
-                connection = DriverManager.getConnection(plugin.url, plugin.user, plugin.password);
-                Statement stat = connection.createStatement();
-                stat.executeUpdate(String.format("INSERT npc_data(name,world,x,y,z,pitch,yaw,fun) VALUES('%s','%s',%f,%f,%f,%f,%f,'%s')",name,p.getWorld().getName(),x,y,z,pitch,yaw,fun));
-
-                stat.close();
-                connection.close();
-
-            } catch (Exception exception) {
-                plugin.getLogger().severe(String.valueOf(exception));
-            }
-            plugin.npcs.add(npc);
-            for(Player pp: players){
-                plugin.addNPCPacket(npc,pp);
-            }
-            return true;
-        }
         if(command.getName().equals("createracenpc")){
             if(!(commandSender instanceof Player)) return true;
             NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER,"Choose your race!");

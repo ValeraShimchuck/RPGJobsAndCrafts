@@ -7,9 +7,6 @@ commands:
   createracenpc:
     usage: /createracenpc
     description: Create a race npc
-  createnpc:
-    usage: /createnpc name fun
-    description: Create a npc with name and function
   resetrace:
     usage: /resetrace
     description: Reset your race
