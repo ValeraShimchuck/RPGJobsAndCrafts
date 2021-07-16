@@ -1,8 +1,11 @@
 package com.RPGJC;
 
+import com.RPGJC.craft.CraftItems;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;
+import org.bukkit.inventory.ItemStack;
 
 public class Inventories {
     private Main plugin;
@@ -50,4 +53,39 @@ public class Inventories {
         inventory.setItem(3*9-1+8,plugin.items.returnItem());
         return inventory;
     }
+    public Inventory craftBookInventory(CraftItems craftItems){
+        Inventory inventory = Bukkit.createInventory(null,9*5,"Крафт");
+        for(int i = 0;i<5;i++){
+            for(int i1 =0;i1<5;i1++){
+                inventory.setItem(9*i+2+i1,new ItemStack(Material.CRAFTING_TABLE));
+            }
+        }
+        inventory = plugin.craft.getCraftInventory(12,inventory,plugin.craft.getCraftInfo(craftItems));
+        inventory.setItem(26,plugin.craft.getCraftInfo(craftItems).getItem());
+        inventory.setItem(44,plugin.items.returnItem());
+        return inventory;
+    }
+    public Inventory menuPatternInventory(String arrowpos){
+        Inventory inventory = Bukkit.createInventory(null,5*9,"Крафты");
+        for(int i=0; i<9;i++){
+            inventory.setItem(i,plugin.items.fillItem());
+            inventory.setItem(i+4*9,plugin.items.fillItem());
+        }
+        inventory.setItem(4*9+4,plugin.items.returnItem());
+        switch (arrowpos){
+            case "R":
+                inventory.setItem(5*9-1,plugin.items.rightSiteItem());
+                break;
+            case "L":
+                inventory.setItem(4*9,plugin.items.leftSiteItem());
+                break;
+            case "RL":
+            case "LR":
+                inventory.setItem(5*9-1,plugin.items.rightSiteItem());
+                inventory.setItem(4*9,plugin.items.leftSiteItem());
+                break;
+        }
+        return inventory;
+    }
+
 }

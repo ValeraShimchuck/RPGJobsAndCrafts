@@ -13,3 +13,6 @@ commands:
   menu:
     usage: /menu
     description: Open menu
+  testinventory:
+    usage: /testinventory
+    description: open test inventory

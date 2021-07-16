@@ -194,6 +194,14 @@ public class Items {
         ItemStack item = new ItemPattern(ChatColor.YELLOW+""+ChatColor.BOLD+"Вернуться назад",Material.ARROW).buildItem();
         return item;
     }
+    public ItemStack rightSiteItem(){
+        ItemStack item = new ItemPattern(ChatColor.YELLOW+""+ChatColor.BOLD+"Вперед",Material.ARROW).buildItem();
+        return item;
+    }
+    public ItemStack leftSiteItem(){
+        ItemStack item = new ItemPattern(ChatColor.YELLOW+""+ChatColor.BOLD+"Назад",Material.ARROW).buildItem();
+        return item;
+    }
 
 }
 

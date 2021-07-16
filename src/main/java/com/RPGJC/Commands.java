@@ -1,5 +1,6 @@
 package com.RPGJC;
 
+import com.RPGJC.craft.CraftItems;
 import com.RPGJC.dataKeeper.RaceType;
 import com.RPGJC.menu.Menus;
 import com.mojang.authlib.GameProfile;
@@ -31,6 +32,11 @@ public class Commands implements CommandExecutor {
 
     @Override
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
+        if(command.getName().equals("testinventory")){
+            if(!(commandSender instanceof Player)) return true;
+            Player p = (Player) commandSender;
+            p.openInventory(plugin.inventories.craftBookInventory(CraftItems.TEST_ITEM));
+        }
         if(command.getName().equals("createracenpc")){
             if(!(commandSender instanceof Player)) return true;
             NPC npc = CitizensAPI.getNPCRegistry().createNPC(EntityType.PLAYER,"Choose your race!");

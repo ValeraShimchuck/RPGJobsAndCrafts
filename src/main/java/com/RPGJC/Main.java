@@ -73,16 +73,17 @@ public class Main extends JavaPlugin {
                 getCommand("createracenpc").setExecutor(new Commands(this));
                 getCommand("resetrace").setExecutor(new Commands(this));
                 getCommand("menu").setExecutor(new Commands(this));
+                getCommand("testinventory").setExecutor(new Commands(this));
                 items = new Items(this);
                 inventories = new Inventories(this);
                 inventoryChecks = new InventoryChecks(this);
                 minecraftInventories.put("RaceInventory",inventories.RaceInventory());
                 manager = Bukkit.getScoreboardManager();
                 sb = new com.RPGJC.Scoreboard(this);
-                menu = new Menu(this);
                 data = new Data(this);
                 craft = new Craft(this);
                 craft.initCrafts();
+                menu = new Menu(this);
             } catch (SQLException throwables) {
                 getLogger().info("SQL don`t connected to DB");
                 getLogger().info(String.valueOf(throwables));

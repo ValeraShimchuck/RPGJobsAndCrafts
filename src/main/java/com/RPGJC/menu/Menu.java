@@ -11,10 +11,12 @@ public class Menu {
     private Main plugin;
     private MenuInterface mainMenu;
     private MenuInterface jobMenu;
+    private CraftMenu craftMenu;
     public Menu(Main plugin){
         this.plugin = plugin;
         this.mainMenu = new MainMenu(this.plugin);
         this.jobMenu = new JobMenu(this.plugin);
+        this.craftMenu = new CraftMenu(this.plugin);
     }
     public void buildInventory(Menus menu, Player p){
         switch (menu){
@@ -25,7 +27,7 @@ public class Menu {
                 //code
                 break;
             case CRAFTS:
-                //code
+                craftMenu.buildInventory(p);
                 break;
             case JOB:
                 jobMenu.buildInventory(p);
@@ -36,15 +38,19 @@ public class Menu {
         Inventory inv = null;
         switch (menu){
             case MAIN:
+                if(mainMenu.getInventory(p) == null) return null;
                 inv = mainMenu.getInventory(p);
                 break;
             case STATISTIC:
+                if(mainMenu.getInventory(p) == null) return null;
                 //code
                 break;
             case CRAFTS:
-                //code
+                if(craftMenu.getInventory(p) == null) return null;
+                inv = craftMenu.getInventory(p);
                 break;
             case JOB:
+                if(jobMenu.getInventory(p) == null) return null;
                 inv = jobMenu.getInventory(p);
                 break;
         }
@@ -53,8 +59,8 @@ public class Menu {
     public Menus getMenu(Player p){
         if(mainMenu.playerInInventory(p))return Menus.MAIN;
         if(jobMenu.playerInInventory(p))return Menus.JOB;
-
         //code
+        if(craftMenu.playerInInventory(p))return Menus.CRAFTS;
         return Menus.NONE;
     }
     private void deleteInventory(Menus menu, Player p){
@@ -66,19 +72,20 @@ public class Menu {
                 //code
                 break;
             case CRAFTS:
-                //code
+                craftMenu.deleteInventory(p);
                 break;
             case JOB:
                 jobMenu.deleteInventory(p);
                 break;
         }
     }
-    private void setTransition(Player p,Boolean bool){
+    public void setTransition(Player p,Boolean bool){
         if(transition.containsKey(p))transition.replace(p,bool);
         else transition.put(p,bool);
 
     }
     public void deletePlayer(Player p){
+        if(getMenu(p) == null) return;
         Menus menu = getMenu(p);
         deleteInventory(menu, p);
     }
@@ -92,5 +99,19 @@ public class Menu {
         deleteInventory(getMenu(p),p);
         buildInventory(menu, p);
         setTransition(p,false);
+    }
+    public MenuInterface getMenuObject(Menus menu){
+        switch (menu){
+            case MAIN:
+                return mainMenu;
+            case STATISTIC:
+                //code
+                break;
+            case CRAFTS:
+                return craftMenu;
+            case JOB:
+                return jobMenu;
+        }
+        return null;
     }
 }

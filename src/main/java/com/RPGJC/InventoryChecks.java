@@ -1,7 +1,9 @@
 package com.RPGJC;
 
+import com.RPGJC.craft.CraftItems;
 import com.RPGJC.dataKeeper.Job;
 import com.RPGJC.dataKeeper.RaceType;
+import com.RPGJC.menu.CraftMenu;
 import com.RPGJC.menu.Menus;
 import org.bukkit.entity.Player;
 import org.bukkit.event.inventory.InventoryClickEvent;
@@ -60,6 +62,9 @@ public class InventoryChecks {
             if(e.getCurrentItem().equals(plugin.items.jobItem())){
                 plugin.menu.changeMenu(Menus.JOB,p);
             }
+            if(e.getCurrentItem().equals(plugin.items.craftBookItem())){
+                plugin.menu.changeMenu(Menus.CRAFTS,p);
+            }
         }
     }
     public void onJobMenuClick(InventoryClickEvent e){
@@ -83,6 +88,56 @@ public class InventoryChecks {
             }
             if(e.getCurrentItem().equals(plugin.items.returnItem())){
                 plugin.menu.changeMenu(Menus.MAIN,p);
+            }
+        }
+    }
+    public void onCraftMenuClick(InventoryClickEvent e){
+        Inventory inv = e.getInventory();
+        Inventory c = e.getClickedInventory();
+        Player p = (Player) e.getWhoClicked();
+        if(plugin.menu.getInventory(Menus.CRAFTS,p)==null)return;
+        if(inv.equals(plugin.menu.getInventory(Menus.CRAFTS,p))){
+            if(c == null)return;
+            e.setCancelled(true);
+            for(CraftItems craftItems: CraftItems.values()){
+                if(e.getCurrentItem().equals(plugin.craft.getCraftInfo(craftItems).getItem())){
+                    plugin.menu.setTransition(p,true);
+                    CraftMenu craftMenu = (CraftMenu) plugin.menu.getMenuObject(Menus.CRAFTS);
+                    p.openInventory(craftMenu.getRecipe(craftItems));
+                    plugin.menu.setTransition(p,false);
+                    break;
+                }
+                if(e.getCurrentItem().equals(plugin.items.rightSiteItem())){
+                    CraftMenu craftMenu = (CraftMenu) plugin.menu.getMenuObject(Menus.CRAFTS);
+                    craftMenu.nextPage(p);
+                }
+                if(e.getCurrentItem().equals(plugin.items.leftSiteItem())){
+                    CraftMenu craftMenu = (CraftMenu) plugin.menu.getMenuObject(Menus.CRAFTS);
+                    craftMenu.prevPage(p);
+                }
+                if(e.getCurrentItem().equals(plugin.items.returnItem())){
+                    plugin.menu.changeMenu(Menus.MAIN,p);
+                }
+            }
+
+        }
+    }
+    public void onRecipeInventoryClick(InventoryClickEvent e){
+        Inventory inv = e.getInventory();
+        Inventory c = e.getClickedInventory();
+        Player p = (Player) e.getWhoClicked();
+        if(plugin.menu.getInventory(Menus.CRAFTS,p)==null)return;
+        if(c == null)return;
+        for(CraftItems craftItems:CraftItems.values()){
+            CraftMenu craftMenu = (CraftMenu) plugin.menu.getMenuObject(Menus.CRAFTS);
+            if(inv.equals(craftMenu.getRecipe(craftItems))){
+                e.setCancelled(true);
+                if(e.getCurrentItem().equals(plugin.items.returnItem())){
+                    plugin.menu.setTransition(p,true);
+                    p.openInventory(plugin.menu.getInventory(Menus.CRAFTS,p));
+                    plugin.menu.setTransition(p,false);
+                }
+                break;
             }
         }
     }
