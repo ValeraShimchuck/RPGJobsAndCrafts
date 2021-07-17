@@ -35,7 +35,8 @@ public class Commands implements CommandExecutor {
         if(command.getName().equals("testinventory")){
             if(!(commandSender instanceof Player)) return true;
             Player p = (Player) commandSender;
-            p.openInventory(plugin.inventories.craftBookInventory(CraftItems.TEST_ITEM));
+            p.openInventory(plugin.inventories.menuMainInventory());
+            p.getInventory().addItem(plugin.items.playerStatistic());
         }
         if(command.getName().equals("createracenpc")){
             if(!(commandSender instanceof Player)) return true;

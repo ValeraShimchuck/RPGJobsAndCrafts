@@ -65,6 +65,12 @@ public class InventoryChecks {
             if(e.getCurrentItem().equals(plugin.items.craftBookItem())){
                 plugin.menu.changeMenu(Menus.CRAFTS,p);
             }
+            plugin.getLogger().info(String.valueOf(e.getCurrentItem()));
+            plugin.getLogger().info(String.valueOf(plugin.items.playerStatistic()));
+            if(e.getCurrentItem().equals(plugin.items.playerStatistic())){
+
+                plugin.menu.changeMenu(Menus.STATISTIC,p);
+            }
         }
     }
     public void onJobMenuClick(InventoryClickEvent e){
@@ -140,5 +146,14 @@ public class InventoryChecks {
                 break;
             }
         }
+    }
+    public void onStatisticInventoryClick(InventoryClickEvent e){
+        Inventory inv = e.getInventory();
+        Inventory c = e.getClickedInventory();
+        Player p = (Player) e.getWhoClicked();
+        if(plugin.menu.getInventory(Menus.STATISTIC,p)==null)return;
+        if(c == null)return;
+        e.setCancelled(true);
+        if(e.getCurrentItem().equals(plugin.items.returnItem()))plugin.menu.changeMenu(Menus.MAIN,p);
     }
 }

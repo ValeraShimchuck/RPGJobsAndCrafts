@@ -85,6 +85,7 @@ public class Handler implements Listener {
         plugin.inventoryChecks.onJobMenuClick(e);
         plugin.inventoryChecks.onCraftMenuClick(e);
         plugin.inventoryChecks.onRecipeInventoryClick(e);
+        plugin.inventoryChecks.onStatisticInventoryClick(e);
     }
     @EventHandler
     public void prepareCraft(PrepareItemCraftEvent e){

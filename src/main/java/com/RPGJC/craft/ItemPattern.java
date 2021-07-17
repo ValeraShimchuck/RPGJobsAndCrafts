@@ -2,8 +2,10 @@ package com.RPGJC.craft;
 
 import com.RPGJC.EnchantmentParams;
 import org.bukkit.Material;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.inventory.meta.SkullMeta;
 
 import java.util.Arrays;
 import java.util.List;
@@ -39,6 +41,14 @@ public class ItemPattern {
         public ItemPattern lore(String ...lore){
             this.lore = Arrays.asList(lore);
             this.meta.setLore(this.lore);
+            return this;
+        }
+        public ItemPattern setSkullMeta(OfflinePlayer p){
+            if(this.material.equals(Material.PLAYER_HEAD)){
+                SkullMeta skullMeta = (SkullMeta) item.getItemMeta();
+                skullMeta.setOwningPlayer(p);
+                item.setItemMeta(skullMeta);
+            }
             return this;
         }
         public ItemStack buildItem(){

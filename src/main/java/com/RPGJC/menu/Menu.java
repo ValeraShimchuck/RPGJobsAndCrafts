@@ -12,11 +12,13 @@ public class Menu {
     private MenuInterface mainMenu;
     private MenuInterface jobMenu;
     private CraftMenu craftMenu;
+    private MenuInterface statisticMenu;
     public Menu(Main plugin){
         this.plugin = plugin;
         this.mainMenu = new MainMenu(this.plugin);
         this.jobMenu = new JobMenu(this.plugin);
         this.craftMenu = new CraftMenu(this.plugin);
+        this.statisticMenu = new StatisticMenu(this.plugin);
     }
     public void buildInventory(Menus menu, Player p){
         switch (menu){
@@ -24,7 +26,7 @@ public class Menu {
                 mainMenu.buildInventory(p);
                 break;
             case STATISTIC:
-                //code
+                statisticMenu.buildInventory(p);
                 break;
             case CRAFTS:
                 craftMenu.buildInventory(p);
@@ -42,8 +44,8 @@ public class Menu {
                 inv = mainMenu.getInventory(p);
                 break;
             case STATISTIC:
-                if(mainMenu.getInventory(p) == null) return null;
-                //code
+                if(statisticMenu.getInventory(p) == null) return null;
+                inv = statisticMenu.getInventory(p);
                 break;
             case CRAFTS:
                 if(craftMenu.getInventory(p) == null) return null;
@@ -59,7 +61,7 @@ public class Menu {
     public Menus getMenu(Player p){
         if(mainMenu.playerInInventory(p))return Menus.MAIN;
         if(jobMenu.playerInInventory(p))return Menus.JOB;
-        //code
+        if(statisticMenu.playerInInventory(p))return Menus.STATISTIC;
         if(craftMenu.playerInInventory(p))return Menus.CRAFTS;
         return Menus.NONE;
     }
@@ -69,7 +71,7 @@ public class Menu {
                 mainMenu.deleteInventory(p);
                 break;
             case STATISTIC:
-                //code
+                statisticMenu.deleteInventory(p);
                 break;
             case CRAFTS:
                 craftMenu.deleteInventory(p);
@@ -105,8 +107,7 @@ public class Menu {
             case MAIN:
                 return mainMenu;
             case STATISTIC:
-                //code
-                break;
+                return statisticMenu;
             case CRAFTS:
                 return craftMenu;
             case JOB:

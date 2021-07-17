@@ -1,6 +1,7 @@
 package com.RPGJC;
 
 import com.RPGJC.craft.CraftItems;
+import com.RPGJC.dataKeeper.Job;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
@@ -31,7 +32,8 @@ public class Inventories {
             inventory.setItem(i*9,plugin.items.fillItem());
             inventory.setItem(i*9+8,plugin.items.fillItem());
         }
-        inventory.setItem(2*9-1+5,plugin.items.playerStatistic());
+        ItemStack playerStatistic = plugin.items.playerStatistic();
+        inventory.setItem(2*9-1+5,playerStatistic);
         inventory.setItem(2*9-1+3,plugin.items.craftBookItem());
         inventory.setItem(2*9-1+7,plugin.items.jobItem());
         return inventory;
@@ -85,6 +87,25 @@ public class Inventories {
                 inventory.setItem(4*9,plugin.items.leftSiteItem());
                 break;
         }
+        return inventory;
+    }
+    public Inventory statisticInventory(Player p){
+        Inventory inventory = Bukkit.createInventory(null,5*9,"Statistic");
+        for(int i=0;i<9;i++){
+            inventory.setItem(i,plugin.items.fillItem());
+            inventory.setItem(i+4*9,plugin.items.fillItem());
+        }
+        for(int i=1;i <5;i++){
+            inventory.setItem(i*9,plugin.items.fillItem());
+            inventory.setItem(i*9+8,plugin.items.fillItem());
+        }
+        inventory.setItem(9+4,plugin.items.mainStatisticItem(p));
+        int i = 0;
+        for(Job job: Job.values()){
+            i++;
+            if(job != Job.NONE) inventory.setItem(i*2+8,plugin.items.jobStatisticItem(p,job));
+        }
+        inventory.setItem(4*9-2,plugin.items.returnItem());
         return inventory;
     }
 

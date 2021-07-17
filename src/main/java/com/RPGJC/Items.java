@@ -89,9 +89,11 @@ public class Items {
 
     public ItemStack playerStatistic(){
         ItemStack item = new ItemPattern(ChatColor.GOLD+"Статистика", Material.ENDER_EYE)
-                .enchant(new EnchantmentParams(plugin.glow,1,true))
                 .lore(ChatColor.WHITE+"Ваша статистика на сервере")
                 .buildItem();
+        ItemMeta meta = item.getItemMeta();
+        meta.addEnchant(Main.glow,1,true);
+        item.setItemMeta(meta);
         return item;
     }
     public ItemStack jobItem(){
@@ -201,6 +203,63 @@ public class Items {
     public ItemStack leftSiteItem(){
         ItemStack item = new ItemPattern(ChatColor.YELLOW+""+ChatColor.BOLD+"Назад",Material.ARROW).buildItem();
         return item;
+    }
+    public ItemStack mainStatisticItem(Player p){
+        ItemStack item = new ItemPattern(ChatColor.AQUA+p.getName(),Material.PLAYER_HEAD).setSkullMeta(p)
+                .lore(
+                        ChatColor.WHITE+"lvl: "+plugin.data.getPlayerLvl(p),
+                        ChatColor.WHITE+"exp: "+plugin.data.getPlayerXp(p),
+                        ChatColor.GOLD+"__________________",
+                        ChatColor.WHITE+"race: "+String.valueOf(plugin.data.getRace(p)).toLowerCase(),
+                        ChatColor.WHITE+"job: "+String.valueOf(plugin.data.getJob(p)).toLowerCase()
+                ).buildItem();
+        return item;
+    }
+    public ItemStack jobStatisticItem(Player p,Job job){
+        switch (job){
+            case LUMBERJACK:
+                if(plugin.data.getJobXp(p,job) != null)return new ItemPattern(ChatColor.GREEN+"Lumberjack",Material.DIAMOND_AXE)
+                        .lore(
+                                ChatColor.WHITE+"lvl: "+plugin.data.getJobLvl(p,job),
+                                ChatColor.WHITE+"exp: "+plugin.data.getJobXp(p,job)
+                        ).buildItem();
+                else return new ItemPattern(ChatColor.RED+"Lumberjack",Material.DIAMOND_AXE)
+                        .lore(
+                                ChatColor.RED+"You don`t work on this job"
+                        ).buildItem();
+            case MINER:
+                if(plugin.data.getJobXp(p,job) != null)return new ItemPattern(ChatColor.GREEN+"Miner",Material.DIAMOND_PICKAXE)
+                        .lore(
+                                ChatColor.WHITE+"lvl: "+plugin.data.getJobLvl(p,job),
+                                ChatColor.WHITE+"exp: "+plugin.data.getJobXp(p,job)
+                        ).buildItem();
+                else return new ItemPattern(ChatColor.RED+"Miner",Material.DIAMOND_PICKAXE)
+                        .lore(
+                                ChatColor.RED+"You don`t work on this job"
+                        ).buildItem();
+            case FARMER:
+                if(plugin.data.getJobXp(p,job) != null)return new ItemPattern(ChatColor.GREEN+"Farmer",Material.DIAMOND_HOE)
+                        .lore(
+                                ChatColor.WHITE+"lvl: "+plugin.data.getJobLvl(p,job),
+                                ChatColor.WHITE+"exp: "+plugin.data.getJobXp(p,job)
+                        ).buildItem();
+                else return new ItemPattern(ChatColor.RED+"Farmer",Material.DIAMOND_HOE)
+                        .lore(
+                                ChatColor.RED+"You don`t work on this job"
+                        ).buildItem();
+            case BUTCHER:
+                if(plugin.data.getJobXp(p,job) != null)return new ItemPattern(ChatColor.GREEN+"Butcher",Material.DIAMOND_SWORD)
+                        .lore(
+                                ChatColor.WHITE+"lvl: "+plugin.data.getJobLvl(p,job),
+                                ChatColor.WHITE+"exp: "+plugin.data.getJobXp(p,job)
+                        ).buildItem();
+                else return new ItemPattern(ChatColor.RED+"Butcher",Material.DIAMOND_SWORD)
+                        .lore(
+                                ChatColor.RED+"You don`t work on this job"
+                        ).buildItem();
+
+        }
+        return null;
     }
 
 }
