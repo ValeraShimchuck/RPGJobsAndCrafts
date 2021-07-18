@@ -1,6 +1,7 @@
 package com.RPGJC.craft;
 
 import com.RPGJC.EnchantmentParams;
+import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.inventory.ItemStack;
@@ -49,6 +50,12 @@ public class ItemPattern {
                 skullMeta.setOwningPlayer(p);
                 item.setItemMeta(skullMeta);
             }
+            return this;
+        }
+        public ItemPattern setUnEjected(){
+            List<String> metalore = meta.getLore();
+            metalore.add(ChatColor.GRAY +"Нельзя выбросить");
+            this.meta.setLore(metalore);
             return this;
         }
         public ItemStack buildItem(){

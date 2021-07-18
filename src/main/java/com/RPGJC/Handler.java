@@ -3,6 +3,7 @@ package com.RPGJC;
 import com.RPGJC.craft.CraftItems;
 import com.RPGJC.dataKeeper.RaceType;
 import net.citizensnpcs.api.CitizensAPI;
+import org.bukkit.Material;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -10,7 +11,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
 import org.bukkit.event.inventory.PrepareItemCraftEvent;
+import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractAtEntityEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
@@ -86,6 +89,11 @@ public class Handler implements Listener {
         plugin.inventoryChecks.onCraftMenuClick(e);
         plugin.inventoryChecks.onRecipeInventoryClick(e);
         plugin.inventoryChecks.onStatisticInventoryClick(e);
+        plugin.inventoryChecks.onUnEjectedItemClick(e);
+    }
+    @EventHandler
+    public void onDragEvent(InventoryDragEvent e){
+        plugin.inventoryChecks.onDragClick(e);
     }
     @EventHandler
     public void prepareCraft(PrepareItemCraftEvent e){
@@ -137,6 +145,12 @@ public class Handler implements Listener {
         }
 
 
+    }
+    @EventHandler
+    public void onItemThrow(PlayerDropItemEvent e){
+        if(!plugin.inventoryChecks.isEjected(e.getItemDrop().getItemStack())){
+            e.setCancelled(true);
+        }
     }
     @EventHandler
     public void onInventoryExit(InventoryCloseEvent e){

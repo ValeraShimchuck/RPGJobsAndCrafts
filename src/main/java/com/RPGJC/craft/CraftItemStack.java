@@ -23,25 +23,25 @@ public class CraftItemStack {
                         .lore(
                                 ChatColor.RED+"Item for test!!!",
                                 ChatColor.WHITE+"Item lvl: "+lvl)
-                        .buildItem();
+                        .setUnEjected().buildItem();
             case TEST_ITEM2:
                 return new ItemPattern("TEST_ITEM2", Material.EMERALD)
                         .lore(
                                 ChatColor.RED+"Item for test!!!",
                                 ChatColor.WHITE+"Item lvl: "+lvl)
-                        .buildItem();
+                        .setUnEjected().buildItem();
             case TEST_ITEM3:
                 return new ItemPattern("TEST_ITEM3", Material.COAL)
                         .lore(
                                 ChatColor.RED+"Item for test!!!",
                                 ChatColor.WHITE+"Item lvl: "+lvl)
-                        .buildItem();
+                        .setUnEjected().buildItem();
             case TEST_ITEM4:
                 return new ItemPattern("TEST_ITEM4", Material.REDSTONE)
                         .lore(
                                 ChatColor.RED+"Item for test!!!",
                                 ChatColor.WHITE+"Item lvl: "+lvl)
-                        .buildItem();
+                        .setUnEjected().buildItem();
         }
         return null;
     }

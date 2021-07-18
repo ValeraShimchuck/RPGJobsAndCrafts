@@ -5,12 +5,17 @@ import com.RPGJC.dataKeeper.Job;
 import com.RPGJC.dataKeeper.RaceType;
 import com.RPGJC.menu.CraftMenu;
 import com.RPGJC.menu.Menus;
+import org.bukkit.ChatColor;
 import org.bukkit.entity.Player;
+import org.bukkit.event.inventory.ClickType;
 import org.bukkit.event.inventory.InventoryClickEvent;
+import org.bukkit.event.inventory.InventoryDragEvent;
+import org.bukkit.event.inventory.InventoryType;
 import org.bukkit.inventory.Inventory;
 import org.bukkit.inventory.ItemStack;
 
 import java.sql.*;
+import java.util.List;
 
 public class InventoryChecks {
     private Main plugin;
@@ -155,5 +160,56 @@ public class InventoryChecks {
         if(c == null)return;
         e.setCancelled(true);
         if(e.getCurrentItem().equals(plugin.items.returnItem()))plugin.menu.changeMenu(Menus.MAIN,p);
+    }
+    public boolean isEjected(ItemStack item){
+        if(item == null) return true;
+        plugin.getLogger().info("pass1");
+        if(item.getItemMeta() == null)return true;
+        plugin.getLogger().info("pass2");
+        if(item.getItemMeta().getLore() == null) return true;
+        plugin.getLogger().info("pass3");
+        List<String> lore = item.getItemMeta().getLore();
+        if(lore.size() == 0)return true;
+        for(String string: lore){
+            if(string.startsWith(ChatColor.GRAY+"Нельзя выбросить"))return false;
+        }
+        return true;
+    }
+    public void onUnEjectedItemClick(InventoryClickEvent e){
+        Inventory inv = e.getInventory();
+        Inventory c= e.getClickedInventory();
+        ItemStack item = e.getCurrentItem();
+        ItemStack cursor = e.getCursor();
+        if(!isEjected(item)){
+            if(c == null)return;
+            if(inv.getType().equals(InventoryType.PLAYER))return;
+            if(e.getInventory().getType().equals(InventoryType.WORKBENCH))return;
+            if(e.getInventory().getType().equals(InventoryType.CRAFTING))return;
+            if(e.isShiftClick())e.setCancelled(true);
+
+        }
+        if(!isEjected(cursor)){
+            if(c==null)return;
+            if(inv.getType().equals(InventoryType.PLAYER))return;
+            if(e.getInventory().getType().equals(InventoryType.WORKBENCH))return;
+            if(e.getInventory().getType().equals(InventoryType.CRAFTING))return;
+            if(c.equals(inv))e.setCancelled(true);
+        }
+
+
+
+    }
+    public void onDragClick(InventoryDragEvent e){
+        ItemStack cursor = e.getOldCursor();
+        plugin.getLogger().info(String.valueOf(e.getCursor()));
+        plugin.getLogger().info(String.valueOf(e.getOldCursor()));
+        plugin.getLogger().info(String.valueOf(isEjected(cursor)));
+        if(!isEjected(cursor)){
+            plugin.getLogger().info(String.valueOf(e.getInventory().getType()));
+
+            if(e.getInventory().getType().equals(InventoryType.CRAFTING))return;
+            if(e.getInventory().getType().equals(InventoryType.WORKBENCH))return;
+            e.setCancelled(true);
+        }
     }
 }
