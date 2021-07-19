@@ -3,12 +3,15 @@ package com.RPGJC;
 import com.RPGJC.craft.CraftItems;
 import com.RPGJC.dataKeeper.RaceType;
 import net.citizensnpcs.api.CitizensAPI;
+import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.World;
 import org.bukkit.entity.ExperienceOrb;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntitySpawnEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.InventoryClickEvent;
 import org.bukkit.event.inventory.InventoryCloseEvent;
 import org.bukkit.event.inventory.InventoryDragEvent;
@@ -19,6 +22,7 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 
 import java.sql.*;
 
@@ -94,6 +98,27 @@ public class Handler implements Listener {
     @EventHandler
     public void onDragEvent(InventoryDragEvent e){
         plugin.inventoryChecks.onDragClick(e);
+    }
+    @EventHandler
+    public void onDeathEvent(PlayerDeathEvent e){
+        Player p = e.getEntity();
+        PlayerInventory inv = p.getInventory();
+        plugin.getLogger().info(String.valueOf(inv.getSize()));
+        for(int i=0; i<inv.getSize();i++){
+
+            ItemStack item = inv.getItem(i);
+            if(item!=null){
+                if(plugin.inventoryChecks.isEjected(item)){
+                    inv.setItem(i,new ItemStack(Material.AIR));
+                    Location loc = p.getLocation();
+                    World world = p.getWorld();
+                    world.dropItem(loc,item);
+                }
+            }
+
+        }
+        e.setKeepInventory(true);
+        e.setKeepLevel(true);
     }
     @EventHandler
     public void prepareCraft(PrepareItemCraftEvent e){

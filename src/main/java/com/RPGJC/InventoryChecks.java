@@ -163,11 +163,11 @@ public class InventoryChecks {
     }
     public boolean isEjected(ItemStack item){
         if(item == null) return true;
-        plugin.getLogger().info("pass1");
+        //plugin.getLogger().info("pass1");
         if(item.getItemMeta() == null)return true;
-        plugin.getLogger().info("pass2");
+        //plugin.getLogger().info("pass2");
         if(item.getItemMeta().getLore() == null) return true;
-        plugin.getLogger().info("pass3");
+        //plugin.getLogger().info("pass3");
         List<String> lore = item.getItemMeta().getLore();
         if(lore.size() == 0)return true;
         for(String string: lore){
